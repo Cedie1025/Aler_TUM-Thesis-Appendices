@@ -23,8 +23,6 @@ library(ggplot2)
 library(rpart.plot)
 library(mice)
 
-
-
 # code success = 0; failure = 1
 clean_data_RF$B_Outcome <- ifelse(clean_data_RF$B_Outcome == "Success",0,1)
 train$B_Outcome <- ifelse(train$B_Outcome == "Success",0,1)
@@ -36,7 +34,6 @@ clean_data_RF$P_Work_Exp <- as.factor(clean_data_RF$P_Work_Exp)
 clean_data_RF$P_Startup_Exp <- as.factor(clean_data_RF$P_Startup_Exp)
 clean_data_RF$Num_Startups <- as.numeric(clean_data_RF$Num_Startups)
 
-
 #Data preparation
 #1.) Impute missing values using random forest
 set.seed(150)
@@ -44,7 +41,6 @@ clean_data_RF$Num_Startups <- scale(clean_data_RF$Num_Startups)
 
 impute_data<- mice(data_set_RF, m=5, method="rf")
 clean_data_RF <- complete(impute_data, 5)
-
 
 #2.) Data splitting
 sample =sample.split(clean_data_RF, SplitRatio = .7)
@@ -63,7 +59,6 @@ test$P_Work_Exp <- as.factor(test$P_Work_Exp)
 test$P_Startup_Exp <- as.factor(test$P_Startup_Exp)
 test$Num_Startups <- as.numeric(test$Num_Startups)
 
-
 #Decision tree model from RPART
 cart_model <- rpart(B_Outcome ~., data = train, method ="class")
 plot(cart_model)
@@ -71,7 +66,6 @@ text(cart_model, digits = 5)
 
 #Decision tree plot
 rpart.plot(cart_model, type = 2, extra = 100, yesno=2, shadow.col = "gray")
-
 
 #Random forest classification model
 control <- trainControl(method = "repeatedcv", number = 5, repeats = 2)
@@ -98,7 +92,6 @@ par(mar=c(5,0,4,2)) #No margin on the left side
 plot(c(0,1),type="n", axes=F, xlab="", ylab="")
 legend("top", colnames(rf_model$finalModel$err.rate),col=1:4,cex=0.8,fill=1:4)
 
-
 #Variable importance
 varImp(rf_model)
 
@@ -107,7 +100,6 @@ importance(rf_model$finalModel)
 #Random forest predictive model
 pred_rf <- predict(rf_model, test)
 
- 
 #Confusion Matrix from the random forest predictive model
 confusionMatrix(data = pred_rf, reference = test$B_Outcome)
 
@@ -136,15 +128,17 @@ legend("bottomright", legend = c("Random Forest", "Logistic Regression"),
 paste("Area Under Curve of Random Forest: ", ROC_rf_AUC)
 paste("Area Under Curve of Logistic Regression: ", ROC_log_auc)
 
-# Demographics (No missing values imputation)
+# Summary statistics (without missing values imputation)
  #Prior work experience
 TAB1 <- table(clean_data_RF$B_Outcome, clean_data_RF$P_Work_Exp)
 FRQ1 <- prop.table(TAB1)*100
 FRQ1
+
  #Prior startup experience
 TAB2 <- table(clean_data_RF$B_Outcome, clean_data_RF$P_Startup_Exp)
 FRQ2 <- prop.table(TAB2)*100
 FRQ2
+
  #Number of previously founded startups
 TAB3 <- table(clean_data_RF$B_Outcome, clean_data_RF$Num_Startups)
 FRQ3 <- prop.table(TAB3)*100
