@@ -136,29 +136,17 @@ legend("bottomright", legend = c("Random Forest", "Logistic Regression"),
 paste("Area Under Curve of Random Forest: ", ROC_rf_AUC)
 paste("Area Under Curve of Logistic Regression: ", ROC_log_auc)
 
-# Demographics 
- #Prior Work Experience
+# Demographics (No missing values imputation)
+ #Prior work experience
 TAB1 <- table(clean_data_RF$B_Outcome, clean_data_RF$P_Work_Exp)
 FRQ1 <- prop.table(TAB1)*100
 FRQ1
- #Prior Startup Experience
+ #Prior startup experience
 TAB2 <- table(clean_data_RF$B_Outcome, clean_data_RF$P_Startup_Exp)
 FRQ2 <- prop.table(TAB2)*100
 FRQ2
-
+ #Number of previously founded startups
 TAB3 <- table(clean_data_RF$B_Outcome, clean_data_RF$Num_Startups)
 FRQ3 <- prop.table(TAB3)*100
 FRQ3
 
-TAB4 <- table(train$B_Outcome)
-
-
-plot_na_pareto(data_set_RF, only_na = TRUE)
-
-install.packages("summarytools")
-library(summarytools)
-
-dfSummary(train)
-summary(clean_data_RF)
-
-??confusionMatrix
