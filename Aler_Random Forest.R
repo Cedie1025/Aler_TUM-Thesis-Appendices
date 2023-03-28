@@ -37,7 +37,6 @@ clean_data_RF$Num_Startups <- as.numeric(clean_data_RF$Num_Startups)
 #Data preparation
 #1.) Impute missing values using random forest
 set.seed(150)
-clean_data_RF$Num_Startups <- scale(clean_data_RF$Num_Startups)
 
 impute_data<- mice(data_set_RF, m=5, method="rf")
 clean_data_RF <- complete(impute_data, 5)
