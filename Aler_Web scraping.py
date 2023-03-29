@@ -42,42 +42,42 @@ for link in links:
 # 5 - SCRAPE ALL THE QUESTION AND ANSWERS FROM EACH INTERVIEWS
 
     # clean up - delete figures and links and linebreaks
-    #for figure in results.find_all('figure'): 
-        #figure.decompose()
-    #for link in results.find_all('a'):
-        #link.replace_with(link.text)
-    #for linebreak in results.find_all('br'):
-        #linebreak.decompose()
-    #text_blocks = results.find_all('div', class_="content-rich-text w-richtext")
+    for figure in results.find_all('figure'): 
+        figure.decompose()
+    for link in results.find_all('a'):
+        link.replace_with(link.text)
+    for linebreak in results.find_all('br'):
+        linebreak.decompose()
+    text_blocks = results.find_all('div', class_="content-rich-text w-richtext")
 
-    #for block in text_blocks: 
+    for block in text_blocks: 
         # get all questions in the block (normally three)
-        #questions_from_block = block.find_all('h2')
-        #for question in questions_from_block: 
+        questions_from_block = block.find_all('h2')
+        for question in questions_from_block: 
             # for each question, append the question to the questions array
-            #questions.append(question.text)
+            questions.append(question.text)
             # go through sibling tags (i.e. p tags) of the question until the next h2-tag appears
-            #answer = ""
-            #for answer_part in question.next_siblings:
-                #if "h2" in answer_part.name:
-                    #break
-                #answer = answer + answer_part.text
+            answer = ""
+            for answer_part in question.next_siblings:
+                if "h2" in answer_part.name:
+                    break
+                answer = answer + answer_part.text
             # append answer to answer array
-            #answers.append(answer)       
+            answers.append(answer)       
 
-    #for i in range(len(questions)):
-    content.append({
-        "Link": URL,
-        "Founder's Name": name,
-        "Date of Interview": date,
-        "Category": category,
-        "Country": country,
-        "Cause of Failure": cause_of_failure,
-        "Revenue": revenue,
-        "Ttile": title,
-        "Summary": summary,
-               # "Questions:": questions[i],
-                #"Answers:": answers[i]
+    for i in range(len(questions)):
+        content.append({
+                "Link": URL,
+                "Founder's Name": name,
+                "Date of Interview": date,
+                "Category": category,
+                "Country": country,
+                "Cause of Failure": cause_of_failure,
+                "Revenue": revenue,
+                "Ttile": title,
+                "Summary": summary,
+                "Questions:": questions[i],
+                "Answers:": answers[i]
         
         })
     
@@ -88,12 +88,3 @@ for link in links:
         dict_writer = csv.DictWriter(output_file, keys)
         dict_writer.writeheader()
         dict_writer.writerows(content)
-
-     
-
-
-
-
-
-
-
