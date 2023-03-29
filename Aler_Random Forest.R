@@ -127,6 +127,19 @@ legend("bottomright", legend = c("Random Forest", "Logistic Regression"),
 paste("Area Under Curve of Random Forest: ", ROC_rf_AUC)
 paste("Area Under Curve of Logistic Regression: ", ROC_log_auc)
 
+#Class probabilities of success in the random forest predictive model
+roc.df <- data.frame(
+  TPP = ROC_rf$sensitivities,
+  FPP = (100 - ROC_rf$specificities),
+  Thresholds = ROC_rf$thresholds)
+
+#Log-odds probabilities of logistic regression predictive model
+roc.df <- data.frame(
+  TPP = ROC_log$sensitivities,
+  FPP = (100 - ROC_log$specificities),
+  Thresholds = ROC_log$thresholds)
+
+
 # Summary statistics (without missing values imputation)
  #Prior work experience
 TAB1 <- table(clean_data_RF$B_Outcome, clean_data_RF$P_Work_Exp)
