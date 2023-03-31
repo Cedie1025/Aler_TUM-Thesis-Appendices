@@ -42,7 +42,7 @@ impute_data<- mice(data_set_RF, m=5, method="rf")
 clean_data_RF <- complete(impute_data, 5)
 
 #2.) Data splitting
-sample =sample.split(clean_data_RF, SplitRatio = .7)
+sample =sample.split(clean_data_RF, SplitRatio = .5)
 train = subset(clean_data_RF, sample == TRUE)
 test = subset(clean_data_RF, sample == FALSE)
 
